@@ -1,0 +1,11 @@
+<div>
+  <ul>
+    <li *ngFor="let car of cars">{{ car.name }}</li>
+  </ul>
+</div>
+<nz-pagination
+  [nzPageIndex]="paginationService.currentPage"
+  [nzTotal]="paginationService.totalNumberOfRecords"
+  [nzPageSize]="paginationService.recordsPerPage"
+  (nzPageIndexChange)="onPageChange($event)">
+</nz-pagination>

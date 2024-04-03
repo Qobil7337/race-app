@@ -1,16 +1,37 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CarService} from "./services/car.service";
 import {EngineService} from "./services/engine.service";
+import {CarApiModel} from "./models/car.api.model";
+import {PaginationService} from "./services/pagination.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
+  cars: CarApiModel[] | null= []
+  ngOnInit() {
+    this.loadData()
+  }
+  loadData() {
+    this.carService.getAll(this.paginationService.currentPage, this.paginationService.recordsPerPage)
+      .subscribe(response => {
+        this.cars = response.body || [];
+        const totalNumberOfRecords = response.headers?.get('X-Total-Count');
+        this.paginationService.totalNumberOfRecords = totalNumberOfRecords ? +totalNumberOfRecords : 0;
+      });
+  }
+  onPageChange(page: number) {
+    this.paginationService.currentPage = page;
+    console.log(page)
+    this.loadData();
+  }
+
   title = 'async-race-app';
   constructor(private engineService: EngineService,
-              private carService: CarService) {
+              private carService: CarService,
+              public paginationService: PaginationService) {
   }
 
   startEngine(id: number): void {
