@@ -9,7 +9,8 @@ import {EngineService} from "./services/engine.service";
 })
 export class AppComponent {
   title = 'async-race-app';
-  constructor(private engineService: EngineService) {
+  constructor(private engineService: EngineService,
+              private carService: CarService) {
   }
 
   startEngine(id: number): void {
@@ -43,5 +44,11 @@ export class AppComponent {
         console.error('Failed to switch to drive mode:', error);
       }
     });
+  }
+  generateRandomCars() {
+    this.carService.createHundredRandomCars().subscribe()
+  }
+  getAllCars() {
+    this.carService.getAll().subscribe(data => console.log(data))
   }
 }
