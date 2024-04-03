@@ -1,4 +1,4 @@
 export interface CarApiModel {
-  name: string;
-  color: string;
+  name: string | null;
+  color: string | null;
 }

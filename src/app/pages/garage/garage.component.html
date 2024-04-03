@@ -1,0 +1,30 @@
+<div class="flex justify-center gap-32 p-4 border-b">
+  <div class="flex gap-4">
+    <button class="border px-4 ">Race</button>
+    <button class="border px-4 ">Reset</button>
+  </div>
+  <div class="">
+    <app-create-car-form (carCreated)="loadData()"></app-create-car-form>
+  </div>
+  <div class="flex">
+    <input type="text" class="border shadow">
+    <nz-color-picker  nzFormat="rgb" (nzOnChange)="logColor($event)"></nz-color-picker>
+    <button class="border px-4 ">Update</button>
+  </div>
+  <div class="flex">
+    <button class="border px-4" nz-button nzType="primary" (click)="generateRandomCars()" [nzLoading]="generateButtonIsLoading">Generate Cars</button>
+  </div>
+</div>
+<div class="p-4" *ngFor="let car of cars">
+  <app-car [carData]="car"></app-car>
+</div>
+<div class="flex justify-center pb-8">
+  <h1 class="text-xl pr-8">GARAGE({{this.paginationService.totalNumberOfRecords}})</h1>
+  <nz-pagination
+    [nzPageIndex]="paginationService.currentPage"
+    [nzTotal]="paginationService.totalNumberOfRecords"
+    [nzPageSize]="paginationService.recordsPerPage"
+    (nzPageIndexChange)="onPageChange($event)">
+  </nz-pagination>
+</div>
+

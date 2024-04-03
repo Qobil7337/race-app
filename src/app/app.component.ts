@@ -12,21 +12,10 @@ import {PaginationService} from "./services/pagination.service";
 export class AppComponent implements OnInit{
   cars: CarApiModel[] | null= []
   ngOnInit() {
-    this.loadData()
+    // this.loadData()
   }
-  loadData() {
-    this.carService.getAll(this.paginationService.currentPage, this.paginationService.recordsPerPage)
-      .subscribe(response => {
-        this.cars = response.body || [];
-        const totalNumberOfRecords = response.headers?.get('X-Total-Count');
-        this.paginationService.totalNumberOfRecords = totalNumberOfRecords ? +totalNumberOfRecords : 0;
-      });
-  }
-  onPageChange(page: number) {
-    this.paginationService.currentPage = page;
-    console.log(page)
-    this.loadData();
-  }
+
+
 
   title = 'async-race-app';
   constructor(private engineService: EngineService,
@@ -69,7 +58,5 @@ export class AppComponent implements OnInit{
   generateRandomCars() {
     this.carService.createHundredRandomCars().subscribe()
   }
-  getAllCars() {
-    this.carService.getAll().subscribe(data => console.log(data))
-  }
+
 }
