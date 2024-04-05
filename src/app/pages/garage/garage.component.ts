@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {NzColor} from "ng-zorro-antd/color-picker";
-import {faCarSide, faCoffee} from "@fortawesome/free-solid-svg-icons";
-import {faCar} from "@fortawesome/free-solid-svg-icons/faCar";
 import {CarApiModel} from "../../models/car.api.model";
 import {CarService} from "../../services/car.service";
 import {PaginationService} from "../../services/pagination.service";
@@ -14,6 +12,7 @@ import {PaginationService} from "../../services/pagination.service";
 export class GarageComponent implements OnInit {
   cars: CarApiModel[] | null = []
   generateButtonIsLoading = false
+  selectedCarId: string = ''
 
   constructor(private carService: CarService,
               public paginationService: PaginationService) {
@@ -46,4 +45,7 @@ export class GarageComponent implements OnInit {
     this.loadData();
   }
 
+  onCarSelected($event: any) {
+    this.selectedCarId = $event
+  }
 }

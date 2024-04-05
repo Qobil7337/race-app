@@ -18,11 +18,12 @@ import { CarComponent } from './components/car/car.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import { CreateCarFormComponent } from './components/create-car-form/create-car-form.component';
+import { UpdateCarFormComponent } from './components/update-car-form/update-car-form.component';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, GarageComponent, WinnersComponent, CarComponent, CreateCarFormComponent],
+  declarations: [AppComponent, GarageComponent, WinnersComponent, CarComponent, CreateCarFormComponent, UpdateCarFormComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, NzPaginationComponent, NzColorPickerComponent, FontAwesomeModule, NzButtonComponent, ReactiveFormsModule],
   providers: [provideHttpClient(), { provide: NZ_I18N, useValue: en_US }, provideAnimationsAsync()],
   bootstrap: [AppComponent],
