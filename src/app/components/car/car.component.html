@@ -1,7 +1,7 @@
 <div class="flex">
   <div class="flex flex-col w-20">
     <button class="p-2 border" (click)="onCarSelect(carData.id)">Select</button>
-    <button class="p-2 border">Remove</button>
+    <button class="p-2 border" (click)="onRemove(carData.id || 0)">Remove</button>
   </div>
   <div class="flex flex-col w-16">
     <button class="py-2 border">A</button>

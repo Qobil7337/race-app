@@ -1,5 +1,5 @@
 export interface CarApiModel {
-  id?: string | null;
-  name: string | null;
-  color: string | null;
+  id?: number;
+  name: string;
+  color: string;
 }

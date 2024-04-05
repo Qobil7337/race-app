@@ -12,7 +12,7 @@ import {PaginationService} from "../../services/pagination.service";
 export class GarageComponent implements OnInit {
   cars: CarApiModel[] | null = []
   generateButtonIsLoading = false
-  selectedCarId: string = ''
+  selectedCarId: number = 0
 
   constructor(private carService: CarService,
               public paginationService: PaginationService) {

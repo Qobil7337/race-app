@@ -14,7 +14,7 @@
   </div>
 </div>
 <div class="p-4" *ngFor="let car of cars">
-  <app-car [carData]="car" (selectedCarId)="onCarSelected($event)"></app-car>
+  <app-car [carData]="car" (selectedCarId)="onCarSelected($event)" (carRemoved)="loadData()"></app-car>
 </div>
 <div class="flex justify-center pb-8">
   <h1 class="text-xl pr-8">GARAGE({{this.paginationService.totalNumberOfRecords}})</h1>

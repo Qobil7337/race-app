@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CarService} from "../../services/car.service";
 import {CarApiModel} from "../../models/car.api.model";
 
@@ -8,19 +8,24 @@ import {CarApiModel} from "../../models/car.api.model";
   templateUrl: './create-car-form.component.html',
   styleUrl: './create-car-form.component.css'
 })
-export class CreateCarFormComponent {
+export class CreateCarFormComponent implements OnInit {
   @Output() carCreated: EventEmitter<void> = new EventEmitter<void>();
-  carForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    color: ['', Validators.required]
-  })
+  carForm!: FormGroup
+
   constructor(private formBuilder: FormBuilder,
               private carService: CarService) {}
 
+  ngOnInit() {
+    this.carForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      color: ['', Validators.required]
+    })
+  }
+
   onSubmit() {
     const carData: CarApiModel = {
-      name: this.carForm.get('name')!.value,
-      color: this.carForm.get('color')!.value,
+      name: this.carForm.value.name,
+      color: this.carForm.value.color,
     };
     this.carService.create(carData).subscribe(() => {
       this.carCreated.emit()
