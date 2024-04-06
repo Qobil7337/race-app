@@ -13,8 +13,11 @@
     <button class="border px-4" nz-button nzType="primary" (click)="generateRandomCars()" [nzLoading]="generateButtonIsLoading">Generate Cars</button>
   </div>
 </div>
-<div class="p-4" *ngFor="let car of cars">
-  <app-car [carData]="car" (selectedCarId)="onCarSelected($event)" (carRemoved)="loadData()"></app-car>
+<div class="relative">
+  <div class="p-4" *ngFor="let car of cars">
+    <app-car [carData]="car" (selectedCarId)="onCarSelected($event)" (carRemoved)="loadData()"></app-car>
+  </div>
+  <h1 style="width: 200px; z-index: 1;opacity: 0.5" class="transform rotate-90 origin-bottom-right absolute top-1/2 right-10 mr-32 whitespace-nowrap bg-white py-2 px-4 text-xl text-center border-b">Finish</h1>
 </div>
 <div class="flex justify-center pb-8">
   <h1 class="text-xl pr-8">GARAGE({{this.paginationService.totalNumberOfRecords}})</h1>
