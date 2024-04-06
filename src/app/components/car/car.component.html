@@ -4,7 +4,7 @@
     <button class="p-2 border" (click)="onRemove(carData.id || 0)">Remove</button>
   </div>
   <div class="flex flex-col w-16">
-    <button style="height: 38px" nz-button [nzLoading]="isStartButtonLoading" class="py-2 border" (click)="onStartCar(carData.id || 0)" [disabled]="driveMode">A</button>
+    <button style="height: 38px" nz-button [nzLoading]="isStartButtonLoading" class="py-2 border" (click)="onStartCar(carData.id || 0, carData.name)" [disabled]="driveMode">A</button>
     <button style="height: 38px" nz-button [nzLoading]="isStopButtonLoading" class="py-2 border" (click)="onStopCar(carData.id || 0)" [disabled]="!driveMode">B</button>
   </div>
   <div class="border-r-2 ">

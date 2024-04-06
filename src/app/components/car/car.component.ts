@@ -5,6 +5,7 @@ import anime from 'animejs/lib/anime.es.js';
 import {EngineService} from "../../services/engine.service";
 import {EngineResponseApiModel} from "../../models/engine-response.api.model";
 import {switchMap} from "rxjs";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-car',
@@ -21,7 +22,8 @@ export class CarComponent {
 
 
   constructor(private carService: CarService,
-              public engineService: EngineService) {
+              public engineService: EngineService,
+              private alertService: AlertService) {
   }
   onCarSelect(id: number| undefined) {
     this.selectedCarId.emit(id)
@@ -31,19 +33,22 @@ export class CarComponent {
     this.carService.delete(id).subscribe(() => this.carRemoved.emit())
   }
 
-  onStartCar(id: number): void {
+  onStartCar(id: number, name: string): void {
     this.isStartButtonLoading = true
     this.engineService.startStopEngine(id, 'started').subscribe({
       next: value => {
         const duration = value.distance / value.velocity
-        this.switchToDriveModeAndStartAnimation(id, duration)
+        this.switchToDriveModeAndStartAnimation(id, name, duration)
       },
       error: err => {
         if (err.status === 400) {
+          this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("Bad request:", err.error.message);
         } else if (err.status === 404) {
+          this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("Car not found:", err.error.message);
         } else {
+          this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("An error occurred:", err);
         }
         this.isStartButtonLoading = false;
@@ -65,7 +70,7 @@ export class CarComponent {
     })
   }
 
-  switchToDriveModeAndStartAnimation(id: number, duration: number): void {
+  switchToDriveModeAndStartAnimation(id: number,name: string, duration: number): void {
     this.engineService.switchToDriveMode(id).subscribe({
       next: value => {
         if (value.success) {
@@ -76,12 +81,16 @@ export class CarComponent {
       },
       error: err => {
         if (err.status === 400) {
+          this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("Bad request:", err.error);
         } else if (err.status === 404) {
+          this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("Car not found:", err.error);
         } else if (err.status === 429) {
+          this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("Too many requests:", err.error);
         } else if (err.status === 500) {
+          this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("Internal server error:", err.error);
         } else {
           console.error("An error occurred:", err);
