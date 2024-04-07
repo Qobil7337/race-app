@@ -3,8 +3,6 @@ import { CarApiModel } from '../../models/car.api.model';
 import {CarService} from "../../services/car.service";
 import anime from 'animejs/lib/anime.es.js';
 import {EngineService} from "../../services/engine.service";
-import {EngineResponseApiModel} from "../../models/engine-response.api.model";
-import {switchMap} from "rxjs";
 import {AlertService} from "../../services/alert.service";
 
 @Component({
@@ -93,6 +91,7 @@ export class CarComponent {
           this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
           console.error("Internal server error:", err.error);
         } else {
+          this.alertService.error(`${err.error}`)
           console.error("An error occurred:", err);
         }
         this.isStartButtonLoading = false;
@@ -112,10 +111,6 @@ export class CarComponent {
       easing: 'linear',
     };
     anime(animationProperties);
-  }
-  stopAnimation(id: number) {
-    const carElementSelector = `.car-${id}`;
-    anime.remove(carElementSelector); // Stop any ongoing animation
   }
   stopAnimationAndResetPosition(id: number) {
     const carElementSelector = `.car-${id}`;
