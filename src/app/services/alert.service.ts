@@ -16,6 +16,15 @@ export class AlertService {
             disableTimeOut: config?.disableAutoClose
         });
     }
+
+  public success(message: string, config?: AlertConfig) {
+    this.toastrService.success(message, config?.title ? config.title : 'Success', {
+      progressBar: true,
+      positionClass: 'toast-center-center',
+      timeOut: config?.duration ? config.duration : 5000,
+      disableTimeOut: config?.disableAutoClose
+    });
+  }
 }
 
 export class AlertConfig {

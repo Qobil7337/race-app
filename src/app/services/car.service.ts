@@ -12,6 +12,7 @@ import {carNames} from "./car-names";
 export class CarService {
   private rootApiUrl = env.apiUrl
   private fullUrl = `${this.rootApiUrl}/garage`
+  isRaceOn = false
 
   constructor(private http: HttpClient) { }
 

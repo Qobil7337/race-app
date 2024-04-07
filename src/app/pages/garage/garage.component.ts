@@ -88,8 +88,20 @@ export class GarageComponent implements OnInit {
     Promise.all(promises).then(() => {
       this.isRaceButtonLoading = false;
       this.animate(this.driveModeOnCars)
+      this.carService.isRaceOn = true
       this.raceInProgress = true
+      this.displayWinner()
     });
+  }
+
+  displayWinner() {
+    const durations = this.driveModeOnCars.map(car => car.duration)
+    const minDuration = Math.min(...durations)
+    const minDurationCar = this.driveModeOnCars.find(car => car.duration === minDuration)
+    const winner = this.cars.find(car => car.id === minDurationCar?.id)
+    setTimeout(() => {
+      this.alertService.success(`Winner: ${winner?.name}. Time: ${(minDuration / 1000).toFixed(2)}s`)
+    }, minDuration)
   }
 
   animate(driveModeOnCars: {id: number, duration: number}[]) {
@@ -159,6 +171,7 @@ export class GarageComponent implements OnInit {
       this.driveModeOnCars.forEach(car => {
         this.stopAnimationAndResetPosition(car.id)
       })
+      this.carService.isRaceOn = false
       this.driveModeOnCars = []
     })
   }

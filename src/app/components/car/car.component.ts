@@ -19,7 +19,8 @@ export class CarComponent {
   isStopButtonLoading= false
 
 
-  constructor(private carService: CarService,
+
+  constructor(public carService: CarService,
               public engineService: EngineService,
               private alertService: AlertService) {
   }
