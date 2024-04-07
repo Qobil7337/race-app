@@ -5,6 +5,7 @@ import {PaginationService} from "../../services/pagination.service";
 import {EngineService} from "../../services/engine.service";
 import {AlertService} from "../../services/alert.service";
 import anime from "animejs/lib/anime.es";
+import {WinnersService} from "../../services/winners.service";
 
 @Component({
   selector: 'app-garage',
@@ -23,7 +24,8 @@ export class GarageComponent implements OnInit {
   constructor(private carService: CarService,
               public paginationService: PaginationService,
               private engineService: EngineService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private winnersService: WinnersService) {
   }
   ngOnInit() {
     this.loadData()
@@ -102,6 +104,18 @@ export class GarageComponent implements OnInit {
     setTimeout(() => {
       this.alertService.success(`Winner: ${winner?.name}. Time: ${(minDuration / 1000).toFixed(2)}s`)
     }, minDuration)
+    // first i need to check if id id present in winners table
+    this.winnersService.getAllWinners().subscribe({
+      next: value => {
+        const isCurrentWinnerInWinnersTable = value.find(value => value.id === winner?.id)
+        if (isCurrentWinnerInWinnersTable) {
+          this.winnersService.updateWinner(isCurrentWinnerInWinnersTable.id, {wins: isCurrentWinnerInWinnersTable.wins + 1, time: Number((minDuration / 1000).toFixed(2))}).subscribe()
+        } else {
+          this.winnersService.createWinner({id: winner?.id || 0, time: Number((minDuration / 1000).toFixed(2)), wins: 1}).subscribe()
+        }
+      },
+      error: err => {}
+    })
   }
 
   animate(driveModeOnCars: {id: number, duration: number}[]) {
