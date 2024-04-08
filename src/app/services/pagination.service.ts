@@ -4,9 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PaginationService {
-  currentPage = 1;
+  currentGaragePage = 1;
+  currentWinnersPage = 1;
   recordsPerPage = 7;
-  totalNumberOfRecords = 0;
+  totalNumberOfWinnersRecords = 0
+  totalNumberOfCarRecords = 0;
 
   constructor() { }
 }

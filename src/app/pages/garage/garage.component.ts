@@ -32,16 +32,16 @@ export class GarageComponent implements OnInit {
   }
 
   loadData() {
-    this.carService.getAll(this.paginationService.currentPage, this.paginationService.recordsPerPage)
+    this.carService.getAll(this.paginationService.currentGaragePage, this.paginationService.recordsPerPage)
       .subscribe(response => {
         this.cars = response.body || [];
         const totalNumberOfRecords = response.headers?.get('X-Total-Count');
-        this.paginationService.totalNumberOfRecords = totalNumberOfRecords ? +totalNumberOfRecords : 0;
+        this.paginationService.totalNumberOfCarRecords = totalNumberOfRecords ? +totalNumberOfRecords : 0;
       });
   }
 
   onPageChange(page: number) {
-    this.paginationService.currentPage = page;
+    this.paginationService.currentGaragePage = page;
     this.loadData();
   }
 
@@ -107,7 +107,7 @@ export class GarageComponent implements OnInit {
     // first i need to check if id id present in winners table
     this.winnersService.getAllWinners().subscribe({
       next: value => {
-        const isCurrentWinnerInWinnersTable = value.find(value => value.id === winner?.id)
+        const isCurrentWinnerInWinnersTable = value.body!.find(value => value.id === winner?.id)
         if (isCurrentWinnerInWinnersTable) {
           this.winnersService.updateWinner(isCurrentWinnerInWinnersTable.id, {wins: isCurrentWinnerInWinnersTable.wins + 1, time: Number((minDuration / 1000).toFixed(2))}).subscribe()
         } else {
