@@ -34,10 +34,15 @@ export class CarComponent {
 
   onStartCar(id: number, name: string): void {
     this.isStartButtonLoading = true
+
+
     this.engineService.startStopEngine(id, 'started').subscribe({
       next: value => {
+        this.isStartButtonLoading = false;
+        this.driveMode = true;
         const duration = value.distance / value.velocity
-        this.switchToDriveModeAndStartAnimation(id, name, duration)
+        this.animate(id, duration);
+        this.switchToDriveMode(id, name)
       },
       error: err => {
         if (err.status === 400) {
@@ -69,13 +74,11 @@ export class CarComponent {
     })
   }
 
-  switchToDriveModeAndStartAnimation(id: number,name: string, duration: number): void {
+  switchToDriveMode(id: number,name: string): void {
     this.engineService.switchToDriveMode(id).subscribe({
       next: value => {
         if (value.success) {
-          this.animate(id, duration);
-          this.isStartButtonLoading = false;
-          this.driveMode = true;
+          return
         }
       },
       error: err => {
@@ -90,6 +93,7 @@ export class CarComponent {
           console.error("Too many requests:", err.error);
         } else if (err.status === 500) {
           this.alertService.error(`Error occurred with car ${name}, ${err.error}`)
+          this.stopAnimation(id)
           console.error("Internal server error:", err.error);
         } else {
           this.alertService.error(`${err.error}`)
@@ -118,7 +122,10 @@ export class CarComponent {
     anime.remove(carElementSelector); // Stop any ongoing animation
     anime.set(carElementSelector, { translateX: '0' }); // Reset position
   }
-
+  stopAnimation(id: number) {
+    const carElementSelector = `.car-${id}`;
+    anime.remove(carElementSelector); // Stop any ongoing animation
+  }
 
 
 }

@@ -11,7 +11,7 @@ export class AlertService {
     public error(message: string, config?: AlertConfig) {
         this.toastrService.error(message, config?.title ? config.title : 'Error', {
             progressBar: true,
-            positionClass: 'toast-bottom-right',
+            positionClass: 'toast-bottom-left',
             timeOut: config?.duration ? config.duration : 5000,
             disableTimeOut: config?.disableAutoClose
         });

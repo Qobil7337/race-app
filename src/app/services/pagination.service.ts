@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 export class PaginationService {
   currentGaragePage = 1;
   currentWinnersPage = 1;
-  recordsPerPage = 7;
+  carRecordsPerPage = 7;
+  winnerRecordsPerPage = 10;
   totalNumberOfWinnersRecords = 0
   totalNumberOfCarRecords = 0;
 

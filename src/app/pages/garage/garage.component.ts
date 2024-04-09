@@ -14,6 +14,7 @@ import {WinnersService} from "../../services/winners.service";
 })
 export class GarageComponent implements OnInit {
   cars: CarApiModel[] = []
+  engineStartedCars: { id: number; name: string, duration: number; }[] = [];
   driveModeOnCars: { id: number; duration: number; }[] = [];
   isGenerateButtonLoading = false
   selectedCarId: number = 0
@@ -32,7 +33,7 @@ export class GarageComponent implements OnInit {
   }
 
   loadData() {
-    this.carService.getAll(this.paginationService.currentGaragePage, this.paginationService.recordsPerPage)
+    this.carService.getAll(this.paginationService.currentGaragePage, this.paginationService.carRecordsPerPage)
       .subscribe(response => {
         this.cars = response.body || [];
         const totalNumberOfRecords = response.headers?.get('X-Total-Count');
@@ -62,22 +63,9 @@ export class GarageComponent implements OnInit {
         this.engineService.startStopEngine(car.id!, 'started').subscribe({
           next: value => {
             const duration = value.distance / value.velocity
-            this.engineService.switchToDriveMode(car.id!).subscribe({
-              next: value1 => {
-                if (value1.success) {
-                  const successCars = {
-                    id: car.id!,
-                    duration: duration
-                  }
-                  this.driveModeOnCars.push(successCars)
-                }
-                resolve();
-              },
-              error: err => {
-                this.handleDriveModeError(car.name, err);
-                resolve();
-              },
-            })
+            const engineStartedCar = {id: car.id!, name: car.name,duration: duration}
+            this.engineStartedCars.push(engineStartedCar)
+            resolve()
           },
           error: err => {
             this.handleStartEngineError(car.name, err);
@@ -89,21 +77,19 @@ export class GarageComponent implements OnInit {
 
     Promise.all(promises).then(() => {
       this.isRaceButtonLoading = false;
-      this.animate(this.driveModeOnCars)
+      this.animate(this.engineStartedCars)
+      this.turnDriveModeOn()
       this.carService.isRaceOn = true
       this.raceInProgress = true
-      this.displayWinner()
+      setTimeout(() => this.displayWinner(),7000)
     });
   }
 
   displayWinner() {
-    const durations = this.driveModeOnCars.map(car => car.duration)
+    const durations = this.engineStartedCars.map(car => car.duration)
     const minDuration = Math.min(...durations)
-    const minDurationCar = this.driveModeOnCars.find(car => car.duration === minDuration)
-    const winner = this.cars.find(car => car.id === minDurationCar?.id)
-    setTimeout(() => {
-      this.alertService.success(`Winner: ${winner?.name}. Time: ${(minDuration / 1000).toFixed(2)}s`)
-    }, minDuration)
+    const winner = this.engineStartedCars.find(car => car.duration === minDuration)
+    this.alertService.success(`Winner: ${winner?.name}. Time: ${(minDuration / 1000).toFixed(2)}s`)
     // first i need to check if id id present in winners table
     this.winnersService.getAllWinners().subscribe({
       next: value => {
@@ -118,8 +104,8 @@ export class GarageComponent implements OnInit {
     })
   }
 
-  animate(driveModeOnCars: {id: number, duration: number}[]) {
-    driveModeOnCars.forEach(car => {
+  animate(engineStartedCars: {id: number, name: string, duration: number}[]) {
+    engineStartedCars.forEach(car => {
       const carElementSelector = `.car-${car.id}`;
       const viewportWidth = `${window.innerWidth - 300}px`;
       const animationProperties = {
@@ -145,7 +131,7 @@ export class GarageComponent implements OnInit {
     }
   }
 
-  handleDriveModeError(carName: string, err: any) {
+  handleDriveModeError(id: number, carName: string, err: any) {
     if (err.status === 400) {
       this.alertService.error(`Error occurred with car ${carName}, ${err.error}`)
       console.error("Bad request:", err.error);
@@ -157,6 +143,8 @@ export class GarageComponent implements OnInit {
       console.error("Too many requests:", err.error);
     } else if (err.status === 500) {
       this.alertService.error(`Error occurred with car ${carName}, ${err.error}`)
+      this.stopAnimation(id)
+      this.engineStartedCars = this.engineStartedCars.filter(car => car.id !== id);
       console.error("Internal server error:", err.error);
     } else {
       this.alertService.error(`${err.error}`)
@@ -166,7 +154,7 @@ export class GarageComponent implements OnInit {
 
   reset() {
     this.isResetButtonLoading = true
-    const promises: Promise<void>[] = this.driveModeOnCars.map(car => {
+    const promises: Promise<void>[] = this.engineStartedCars.map(car => {
       return new Promise<void>((resolve) => {
         this.engineService.startStopEngine(car.id, 'stopped').subscribe({
           next: value => {
@@ -182,11 +170,11 @@ export class GarageComponent implements OnInit {
     Promise.all(promises).then(() => {
       this.raceInProgress = false
       this.isResetButtonLoading = false
-      this.driveModeOnCars.forEach(car => {
-        this.stopAnimationAndResetPosition(car.id)
+      this.cars.forEach(car => {
+        this.stopAnimationAndResetPosition(car.id!)
       })
       this.carService.isRaceOn = false
-      this.driveModeOnCars = []
+      this.engineStartedCars = []
     })
   }
 
@@ -194,6 +182,26 @@ export class GarageComponent implements OnInit {
     const carElementSelector = `.car-${id}`;
     anime.remove(carElementSelector); // Stop any ongoing animation
     anime.set(carElementSelector, { translateX: '0' }); // Reset position
+  }
+
+  stopAnimation(id: number) {
+    const carElementSelector = `.car-${id}`;
+    anime.remove(carElementSelector); // Stop any ongoing animation
+  }
+
+  turnDriveModeOn() {
+    this.engineStartedCars.forEach(car => {
+      this.engineService.switchToDriveMode(car.id).subscribe({
+        next: value => {
+          if (value.success) {
+            return
+          }
+        },
+        error: err => {
+          this.handleDriveModeError(car.id, car.name, err)
+        }
+      })
+    })
   }
 
   }

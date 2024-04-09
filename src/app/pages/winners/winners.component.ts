@@ -41,7 +41,7 @@ export class WinnersComponent implements OnInit {
     promises.push(carServicePromise);
 
     const winnersServicePromise = new Promise<void>((resolve) => {
-      this.winnersService.getAllWinners(this.paginationService.currentWinnersPage, this.paginationService.recordsPerPage).subscribe((response) => {
+      this.winnersService.getAllWinners(this.paginationService.currentWinnersPage, this.paginationService.winnerRecordsPerPage).subscribe((response) => {
         const totalNumberOfRecords = response.headers?.get('X-Total-Count');
         this.paginationService.totalNumberOfWinnersRecords = totalNumberOfRecords ? +totalNumberOfRecords : 0;
         this.winners = response.body!;
