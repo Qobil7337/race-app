@@ -13,6 +13,8 @@ export class CarService {
   private rootApiUrl = env.apiUrl
   private fullUrl = `${this.rootApiUrl}/garage`
   isRaceOn = false
+  createCarInputValue: string = ''
+  updateCarInputValue: string = ''
 
   constructor(private http: HttpClient) { }
 

@@ -12,8 +12,10 @@ export class UpdateCarFormComponent implements OnInit {
   @Output() carUpdated: EventEmitter<any> = new EventEmitter<any>()
   @Input() carId: number = 0
   carForm!: FormGroup
+  inputValue: string = ''
 
   ngOnInit() {
+    this.inputValue = this.carService.updateCarInputValue
     this.carForm = this.formBuilder.group({
       name: ['', Validators.required],
       color: ['', Validators.required]
@@ -32,6 +34,15 @@ export class UpdateCarFormComponent implements OnInit {
       this.carUpdated.emit()
       this.carForm.reset()
     });
+  }
+
+  assignInputValueOnChange($event: Event) {
+    const inputElement = event!.target as HTMLInputElement;
+    this.inputValue = inputElement.value;
+  }
+
+  ngOnDestroy() {
+    this.carService.updateCarInputValue = this.inputValue
   }
 
 }

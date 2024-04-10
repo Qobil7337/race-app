@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {CarApiModel} from "../../models/car.api.model";
 import {CarService} from "../../services/car.service";
 import {PaginationService} from "../../services/pagination.service";
@@ -6,30 +6,75 @@ import {EngineService} from "../../services/engine.service";
 import {AlertService} from "../../services/alert.service";
 import anime from "animejs/lib/anime.es";
 import {WinnersService} from "../../services/winners.service";
+import {AnimeParams} from "animejs";
+import {PreserveGarageStateService} from "../../services/preserve-garage-state.service";
+import {CarPositionService} from "../../services/car-position.service";
 
 @Component({
   selector: 'app-garage',
   templateUrl: './garage.component.html',
   styleUrl: './garage.component.css'
 })
-export class GarageComponent implements OnInit {
+export class GarageComponent implements OnInit, OnDestroy, AfterViewInit {
   cars: CarApiModel[] = []
   engineStartedCars: { id: number; name: string, duration: number; }[] = [];
-  driveModeOnCars: { id: number; duration: number; }[] = [];
-  isGenerateButtonLoading = false
   selectedCarId: number = 0
-  isRaceButtonLoading = false
-  isResetButtonLoading = false
-  raceInProgress = false
+
 
   constructor(private carService: CarService,
               public paginationService: PaginationService,
               private engineService: EngineService,
               private alertService: AlertService,
-              private winnersService: WinnersService) {
-  }
+              private winnersService: WinnersService,
+              public preserveGarageState: PreserveGarageStateService,
+              private renderer: Renderer2,
+              private elementRef: ElementRef,
+              private carPositionService: CarPositionService) {}
+
+
+
   ngOnInit() {
     this.loadData()
+
+  }
+
+  ngAfterViewInit() {
+    if (this.carPositionService.getCarPositions().length >= 0) {
+      setTimeout( () => {
+        const carPositions = this.carPositionService.getCarPositions();
+        carPositions.forEach(carPosition => {
+          const carElement = this.elementRef.nativeElement.querySelector(`.car-${carPosition.id}`);
+          setTimeout(() => {console.log(carElement)},2000)
+          if (carElement) {
+            this.renderer.setStyle(carElement, 'position', 'absolute');
+            this.renderer.setStyle(carElement, 'left', carPosition.left);
+            this.renderer.setStyle(carElement, 'top', carPosition.top);
+          }
+        });
+        console.log(carPositions)
+      },100)
+    }
+  }
+
+
+  ngOnDestroy() {
+    setTimeout(() => {
+      const carPositions: { id: number; left: string; top: string; }[] = [];
+      this.cars.forEach(car => {
+        const carElement = this.elementRef.nativeElement.querySelector(`.car-${car.id}`);
+        console.log(carElement)
+        if (carElement) {
+
+          const { left, top } = carElement.getBoundingClientRect();
+          console.log(`Position of car ${car.id}: Left - ${left}px, Top - ${top}px`);
+          // Store or use the position as needed
+        } else {
+          console.warn(`Car element with selector ${carElement} not found.`);
+        }
+
+      });
+      // this.carPositionService.setCarPositions(carPositions);
+    }, 2000); // Adjust the delay as needed
   }
 
   loadData() {
@@ -47,8 +92,8 @@ export class GarageComponent implements OnInit {
   }
 
   generateRandomCars() {
-    this.isGenerateButtonLoading = true
-    this.carService.createHundredRandomCars().subscribe(() => this.isGenerateButtonLoading= false)
+    this.preserveGarageState.isGenerateButtonLoading = true
+    this.carService.createHundredRandomCars().subscribe(() => this.preserveGarageState.isGenerateButtonLoading = false)
     this.loadData();
   }
 
@@ -57,7 +102,7 @@ export class GarageComponent implements OnInit {
   }
 
   race() {
-    this.isRaceButtonLoading = true;
+    this.preserveGarageState.isRaceButtonLoading = true;
     const promises: Promise<void>[] = this.cars.map(car => {
       return new Promise<void>((resolve) => {
         this.engineService.startStopEngine(car.id!, 'started').subscribe({
@@ -76,11 +121,11 @@ export class GarageComponent implements OnInit {
     });
 
     Promise.all(promises).then(() => {
-      this.isRaceButtonLoading = false;
+      this.preserveGarageState.isRaceButtonLoading = false;
       this.animate(this.engineStartedCars)
       this.turnDriveModeOn()
       this.carService.isRaceOn = true
-      this.raceInProgress = true
+      this.preserveGarageState.raceInProgress = true
       setTimeout(() => this.displayWinner(),7000)
     });
   }
@@ -113,7 +158,7 @@ export class GarageComponent implements OnInit {
         translateX: viewportWidth,
         duration: car.duration,
         easing: 'linear',
-      };
+      }
       anime(animationProperties);
     })
   }
@@ -153,7 +198,7 @@ export class GarageComponent implements OnInit {
   }
 
   reset() {
-    this.isResetButtonLoading = true
+    this.preserveGarageState.isResetButtonLoading = true
     const promises: Promise<void>[] = this.engineStartedCars.map(car => {
       return new Promise<void>((resolve) => {
         this.engineService.startStopEngine(car.id, 'stopped').subscribe({
@@ -168,8 +213,8 @@ export class GarageComponent implements OnInit {
       })
     })
     Promise.all(promises).then(() => {
-      this.raceInProgress = false
-      this.isResetButtonLoading = false
+      this.preserveGarageState.raceInProgress = false
+      this.preserveGarageState.isResetButtonLoading = false
       this.cars.forEach(car => {
         this.stopAnimationAndResetPosition(car.id!)
       })
@@ -204,5 +249,5 @@ export class GarageComponent implements OnInit {
     })
   }
 
-  }
+}
 

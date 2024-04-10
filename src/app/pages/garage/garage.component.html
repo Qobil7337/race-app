@@ -1,7 +1,7 @@
 <div class="flex justify-center gap-32 p-4 border-b">
   <div class="flex gap-4">
-    <button nz-button [nzLoading]=isRaceButtonLoading class="border px-4 " (click)="race()" [disabled]="raceInProgress">Race</button>
-    <button nz-button [nzLoading]=isResetButtonLoading class="border px-4 " (click)="reset()" [disabled]="!raceInProgress">Reset</button>
+    <button nz-button [nzLoading]=this.preserveGarageState.isRaceButtonLoading class="border px-4 " (click)="race()" [disabled]="this.preserveGarageState.raceInProgress">Race</button>
+    <button nz-button [nzLoading]=this.preserveGarageState.isResetButtonLoading class="border px-4 " (click)="reset()" [disabled]="!this.preserveGarageState.raceInProgress">Reset</button>
   </div>
   <div class="">
     <app-create-car-form (carCreated)="loadData()"></app-create-car-form>
@@ -10,7 +10,7 @@
    <app-update-car-form [carId]="selectedCarId" (carUpdated)="loadData()"></app-update-car-form>
   </div>
   <div class="flex">
-    <button class="border px-4" nz-button nzType="primary" (click)="generateRandomCars()" [nzLoading]="isGenerateButtonLoading">Generate Cars</button>
+    <button class="border px-4" nz-button nzType="primary" (click)="generateRandomCars()" [nzLoading]="this.preserveGarageState.isGenerateButtonLoading">Generate Cars</button>
   </div>
 </div>
 <div class="relative">
