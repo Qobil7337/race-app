@@ -15,6 +15,9 @@ export class WinnersComponent implements OnInit {
   cars: CarApiModel[] = []
   winners: WinnerApiModel[] = []
   winnersWithCarDetails: WinnerWithCarDetailsApiModel[] = []
+  winsSortOrder: 'asc' | 'desc' = 'asc';
+  timeSortOrder: 'asc' | 'desc' = 'asc';
+  sortBy: 'wins' | 'time' = 'wins';
   // I don't have any relation of cars and winners. That is why I need to
   // get cars and winners and compare id's so that i have winners details
   constructor(private carService: CarService,
@@ -67,5 +70,29 @@ export class WinnersComponent implements OnInit {
       });
     });
 
+  }
+
+  sortByWins() {
+    this.sortBy = 'wins';
+    this.winsSortOrder = this.winsSortOrder === 'asc' ? 'desc' : 'asc';
+    this.winnersWithCarDetails.sort((a, b) => {
+      if (this.winsSortOrder === 'asc') {
+        return a.wins - b.wins;
+      } else {
+        return b.wins - a.wins;
+      }
+    });
+  }
+
+  sortByTime() {
+    this.sortBy = 'time';
+    this.timeSortOrder = this.timeSortOrder === 'asc' ? 'desc' : 'asc';
+    this.winnersWithCarDetails.sort((a, b) => {
+      if (this.timeSortOrder === 'asc') {
+        return a.time - b.time;
+      } else {
+        return b.time - a.time;
+      }
+    });
   }
 }
