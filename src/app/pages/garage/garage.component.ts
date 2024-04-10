@@ -15,7 +15,7 @@ import {CarPositionService} from "../../services/car-position.service";
   templateUrl: './garage.component.html',
   styleUrl: './garage.component.css'
 })
-export class GarageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GarageComponent implements OnInit {
   cars: CarApiModel[] = []
   engineStartedCars: { id: number; name: string, duration: number; }[] = [];
   selectedCarId: number = 0
@@ -27,54 +27,13 @@ export class GarageComponent implements OnInit, OnDestroy, AfterViewInit {
               private alertService: AlertService,
               private winnersService: WinnersService,
               public preserveGarageState: PreserveGarageStateService,
-              private renderer: Renderer2,
-              private elementRef: ElementRef,
-              private carPositionService: CarPositionService) {}
+              ) {}
 
 
 
   ngOnInit() {
     this.loadData()
 
-  }
-
-  ngAfterViewInit() {
-    if (this.carPositionService.getCarPositions().length >= 0) {
-      setTimeout( () => {
-        const carPositions = this.carPositionService.getCarPositions();
-        carPositions.forEach(carPosition => {
-          const carElement = this.elementRef.nativeElement.querySelector(`.car-${carPosition.id}`);
-          setTimeout(() => {console.log(carElement)},2000)
-          if (carElement) {
-            this.renderer.setStyle(carElement, 'position', 'absolute');
-            this.renderer.setStyle(carElement, 'left', carPosition.left);
-            this.renderer.setStyle(carElement, 'top', carPosition.top);
-          }
-        });
-        console.log(carPositions)
-      },100)
-    }
-  }
-
-
-  ngOnDestroy() {
-    setTimeout(() => {
-      const carPositions: { id: number; left: string; top: string; }[] = [];
-      this.cars.forEach(car => {
-        const carElement = this.elementRef.nativeElement.querySelector(`.car-${car.id}`);
-        console.log(carElement)
-        if (carElement) {
-
-          const { left, top } = carElement.getBoundingClientRect();
-          console.log(`Position of car ${car.id}: Left - ${left}px, Top - ${top}px`);
-          // Store or use the position as needed
-        } else {
-          console.warn(`Car element with selector ${carElement} not found.`);
-        }
-
-      });
-      // this.carPositionService.setCarPositions(carPositions);
-    }, 2000); // Adjust the delay as needed
   }
 
   loadData() {

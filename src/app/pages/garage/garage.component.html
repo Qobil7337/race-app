@@ -1,4 +1,4 @@
-<div class="flex justify-center gap-32 p-4 border-b">
+<div class="lg:w-full lg:flex lg:justify-center lg:gap-32 lg:p-4 lg:border-b ms:w-full ms:flex sm:w-full sm:flex">
   <div class="flex gap-4">
     <button nz-button [nzLoading]=this.preserveGarageState.isRaceButtonLoading class="border px-4 " (click)="race()" [disabled]="this.preserveGarageState.raceInProgress">Race</button>
     <button nz-button [nzLoading]=this.preserveGarageState.isResetButtonLoading class="border px-4 " (click)="reset()" [disabled]="!this.preserveGarageState.raceInProgress">Reset</button>
