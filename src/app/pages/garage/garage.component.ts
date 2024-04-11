@@ -108,7 +108,7 @@ export class GarageComponent implements OnInit {
     this.alertService.success(
       `Winner: ${winner?.name}. Time: ${(minDuration / 1000).toFixed(2)}s`,
     );
-    // first i need to check if id id present in winners table
+    // first i need to check if id present in winners table
     this.winnersService.getAllWinners().subscribe({
       next: (value) => {
         const isCurrentWinnerInWinnersTable = value.body!.find(
@@ -118,7 +118,7 @@ export class GarageComponent implements OnInit {
           this.winnersService
             .updateWinner(isCurrentWinnerInWinnersTable.id, {
               wins: isCurrentWinnerInWinnersTable.wins + 1,
-              time: Number((minDuration / 1000).toFixed(2)),
+              time: Number((winner?.duration! / 1000).toFixed(2)) < isCurrentWinnerInWinnersTable.time ? Number((winner?.duration! / 1000).toFixed(2)) : isCurrentWinnerInWinnersTable.time,
             })
             .subscribe();
         } else {
