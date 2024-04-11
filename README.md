@@ -1,4 +1,4 @@
-https://clever-smakager-0110dc.netlify.app/   Points: 370
+https://exquisite-beignet-e9217d.netlify.app/   Points: 370
 
 ## 🏁 Basic Structure (85 points)
 
