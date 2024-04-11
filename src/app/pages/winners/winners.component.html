@@ -33,6 +33,9 @@
   </table>
 </div>
 <div class="flex justify-center pb-8">
+  <h1 class="text-xl pr-8">
+    GARAGE({{ this.paginationService.totalNumberOfWinnersRecords}})
+  </h1>
   <nz-pagination
     [nzPageIndex]="paginationService.currentWinnersPage"
     [nzTotal]="paginationService.totalNumberOfWinnersRecords"
