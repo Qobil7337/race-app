@@ -57,6 +57,4 @@ export const carNames = [
   'BMW M6',
   'McLaren P1',
   'Ferrari LaFerrari',
-
-
-]
+];

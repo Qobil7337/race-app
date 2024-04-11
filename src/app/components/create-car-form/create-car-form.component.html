@@ -1,7 +1,25 @@
-<form action="" [formGroup]="carForm" (ngSubmit)="onSubmit()" class="flex items-center">
-  <input formControlName="name" type="text" class="border shadow py-1 px-1" (input)="assignInputValueOnChange($event)" [(ngModel)]="inputValue">
+<form
+  action=""
+  [formGroup]="carForm"
+  (ngSubmit)="onSubmit()"
+  class="flex items-center"
+>
+  <input
+    formControlName="name"
+    type="text"
+    class="border shadow py-1 px-1"
+    (input)="assignInputValueOnChange($event)"
+    [(ngModel)]="inputValue"
+  />
   <div class="flex items-center">
     <nz-color-picker formControlName="color" class=""></nz-color-picker>
   </div>
-  <button nz-button type="submit" class="border px-4 py-1" [disabled]="!carForm.valid">Create</button>
+  <button
+    nz-button
+    type="submit"
+    class="border px-4 py-1"
+    [disabled]="!carForm.valid"
+  >
+    Create
+  </button>
 </form>
