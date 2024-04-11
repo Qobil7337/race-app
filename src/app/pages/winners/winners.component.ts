@@ -84,6 +84,8 @@ export class WinnersComponent implements OnInit {
       this.winnersService.getAllWinners(
         this.paginationService.currentWinnersPage,
         this.paginationService.winnerRecordsPerPage,
+        'wins',
+        'ASC'
       ).subscribe({
         next: value => {
           this.winners = []
@@ -119,6 +121,8 @@ export class WinnersComponent implements OnInit {
       this.winnersService.getAllWinners(
         this.paginationService.currentWinnersPage,
         this.paginationService.winnerRecordsPerPage,
+        'time',
+        "ASC"
       ).subscribe({
         next: value => {
           this.winners = []
@@ -134,7 +138,7 @@ export class WinnersComponent implements OnInit {
         this.paginationService.currentWinnersPage,
         this.paginationService.winnerRecordsPerPage,
         'time',
-        'ASC'
+        'DESC'
       ).subscribe({
         next: value => {
           this.winners = []
