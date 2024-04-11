@@ -13,10 +13,10 @@ https://clever-smakager-0110dc.netlify.app/
 
 #### Car Management (45 points)
 
-- [ ] **CRUD Operations (20 points):** Enable users to create, update, and delete cars, and display the list of cars. A car has two attributes: "name" and "color". For "delete"-operation car should be deleted from "garage" table as well as from "winners".
-- [ ] **Color Selection (10 points):** Allow color selection from an RGB palette ([like here](https://colorspire.com/rgb-color-wheel/)), displaying the selected color on the car's image along with its name.
-- [ ] **Management Buttons (5 points):** Provide buttons near each car's image for updating its attributes or deleting it.
-- [ ] **Pagination (10 points):** Implement pagination for the "Garage" view, displaying 7 cars per page.
+- [x] **CRUD Operations (20 points):** Enable users to create, update, and delete cars, and display the list of cars. A car has two attributes: "name" and "color". For "delete"-operation car should be deleted from "garage" table as well as from "winners".
+- [x] **Color Selection (10 points):** Allow color selection from an RGB palette ([like here](https://colorspire.com/rgb-color-wheel/)), displaying the selected color on the car's image along with its name.
+- [x] **Management Buttons (5 points):** Provide buttons near each car's image for updating its attributes or deleting it.
+- [x] **Pagination (10 points):** Implement pagination for the "Garage" view, displaying 7 cars per page.
 
 #### Car Generation (10 points)
 

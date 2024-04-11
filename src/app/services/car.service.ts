@@ -3,7 +3,7 @@ import { environment as env } from '../../environments/environment';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { from, mergeMap, Observable } from 'rxjs';
 import { CarApiModel } from '../models/car.api.model';
-import { carNames } from './car-names';
+import {carModels, carNames} from './car-names';
 
 @Injectable({
   providedIn: 'root',
@@ -62,8 +62,9 @@ export class CarService {
     return randomCars;
   }
   generateCarName() {
-    const randomNumber = Math.floor(Math.random() * carNames.length);
-    return carNames[randomNumber];
+    const randomNumberForName = Math.floor(Math.random() * carNames.length);
+    const randomNumberForModel = Math.floor(Math.random() * carModels.length);
+    return `${carNames[randomNumberForName]} ${carModels[randomNumberForModel]}`;
   }
   generateColor() {
     const red = Math.floor(Math.random() * 256)
