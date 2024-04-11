@@ -1,4 +1,4 @@
-https://clever-smakager-0110dc.netlify.app/  
+https://clever-smakager-0110dc.netlify.app/   Points: 370
 
 ## 🏁 Basic Structure (85 points)
 
@@ -41,37 +41,37 @@ https://clever-smakager-0110dc.netlify.app/
 - [x] **Display Winners (15 points):** After some car wins it should be displayed at the "Winners view" table.
 - [x] **Pagination for Winners (10 points):** Implement pagination for the "Winners" view, with 10 winners per page.
 - [x] **Winners Table (10 points):** The table should include columns for the car's №, image, name, number of wins, and best time in seconds. If the same car wins more than once the number of wins should be incremented while best time should be saved only if it's better than the stored one.
-- [ ] **Sorting Functionality (10 points):** Allow users to sort the table by the number of wins and best time, in ascending or descending order.
+- [x] **Sorting Functionality (10 points):** Allow users to sort the table by the number of wins and best time, in ascending or descending order.
 
 ## 🏗️ Application Architecture (40 points)
 
-- [ ] **Modular Design (40 points):** The application should be clearly divided into logical modules or layers, such as API interaction, UI rendering, and state management. Consultation with a mentor on the architecture before implementation is advised.
+- [x] **Modular Design (40 points):** The application should be clearly divided into logical modules or layers, such as API interaction, UI rendering, and state management. Consultation with a mentor on the architecture before implementation is advised.
 
 ## 📜 Dynamic Content Generation (30 points)
 
-- [ ] **JavaScript-Generated HTML Content (30 points):** All HTML content must be dynamically generated using JavaScript, with the `<body>` tag containing only a single `<script>` tag.
+- [x] **JavaScript-Generated HTML Content (30 points):** All HTML content must be dynamically generated using JavaScript, with the `<body>` tag containing only a single `<script>` tag.
 
 ## 🌐 Single Page Application (25 points)
 
-- [ ] **SPA Implementation (25 points):** The application must be a Single Page Application (SPA) using either React v18+ or Angular v17+. All content must be generated using TypeScript with `strict` and `noImplicitAny` settings enabled in `tsconfig.json`, ensuring seamless user experience without page reloads during navigation.
+- [x] **SPA Implementation (25 points):** The application must be a Single Page Application (SPA) using either React v18+ or Angular v17+. All content must be generated using TypeScript with `strict` and `noImplicitAny` settings enabled in `tsconfig.json`, ensuring seamless user experience without page reloads during navigation.
 
 ## 📦 Bundling and Tooling (20 points)
 
-- [ ] **Use of Webpack or Similar (20 points):** Implement Webpack or another bundling tool to compile the project into a minimal set of files, ideally one HTML file, one JS file, and one CSS file. Ensure that the configuration enforces TypeScript strict type checking.
+- [x] **Use of Webpack or Similar (20 points):** Implement Webpack or another bundling tool to compile the project into a minimal set of files, ideally one HTML file, one JS file, and one CSS file. Ensure that the configuration enforces TypeScript strict type checking.
 
 ## ✅ Code Quality and Standards (15 points)
 
-- [ ] **Eslint with Airbnb Style Guide (15 points):** Code must adhere to the Airbnb ESLint configuration to maintain code quality, as outlined in the [Airbnb style guide](https://www.npmjs.com/package/eslint-config-airbnb). Specific rules may be adjusted only with mentor approval, and there should be no ESLint errors or warnings.
+- [x] **Eslint with Airbnb Style Guide (15 points):** Code must adhere to the Airbnb ESLint configuration to maintain code quality, as outlined in the [Airbnb style guide](https://www.npmjs.com/package/eslint-config-airbnb). Specific rules may be adjusted only with mentor approval, and there should be no ESLint errors or warnings.
 
 ## 📏 Code Organization and Efficiency (15 points)
 
-- [ ] **Function Modularization (10 points):** Code should be organized into small, clearly named functions with specific purposes. Each function should not exceed 40 lines, reflecting strong typing and avoiding the use of magic numbers or strings.
-- [ ] **Code Duplication and Magic Numbers (5 points):** Minimize code duplication and maintain readability by avoiding the use of magic numbers or strings throughout the codebase.
+- [x] **Function Modularization (10 points):** Code should be organized into small, clearly named functions with specific purposes. Each function should not exceed 40 lines, reflecting strong typing and avoiding the use of magic numbers or strings.
+- [x] **Code Duplication and Magic Numbers (5 points):** Minimize code duplication and maintain readability by avoiding the use of magic numbers or strings throughout the codebase.
 
 ## 🎨 Prettier and ESLint Configuration (10 points)
 
-- [ ] **Prettier Setup (5 points):** Prettier is correctly set up with two scripts in `package.json`: `format` for auto-formatting and `ci:format` for checking issues.
-- [ ] **ESLint Configuration (5 points):** ESLint is configured with the [Airbnb style guide](https://www.npmjs.com/package/eslint-config-airbnb). A `lint` script in `package.json` runs ESLint checks. Configuration files should reflect strict TypeScript settings as per `tsconfig.json`.
+- [x] **Prettier Setup (5 points):** Prettier is correctly set up with two scripts in `package.json`: `format` for auto-formatting and `ci:format` for checking issues.
+- [x] **ESLint Configuration (5 points):** ESLint is configured with the [Airbnb style guide](https://www.npmjs.com/package/eslint-config-airbnb). A `lint` script in `package.json` runs ESLint checks. Configuration files should reflect strict TypeScript settings as per `tsconfig.json`.
 
 ## 🌟 Overall Code Quality (35 points)
 
