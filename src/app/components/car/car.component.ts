@@ -4,6 +4,7 @@ import { CarService } from '../../services/car.service';
 import anime from 'animejs/lib/anime.es.js';
 import { EngineService } from '../../services/engine.service';
 import { AlertService } from '../../services/alert.service';
+import {WinnersService} from "../../services/winners.service";
 
 @Component({
   selector: 'app-car',
@@ -22,6 +23,7 @@ export class CarComponent {
     public carService: CarService,
     public engineService: EngineService,
     private alertService: AlertService,
+    private winnersService: WinnersService,
   ) {}
   onCarSelect(id: number | undefined) {
     this.selectedCarId.emit(id);
@@ -29,6 +31,7 @@ export class CarComponent {
 
   onRemove(id: number) {
     this.carService.delete(id).subscribe(() => this.carRemoved.emit());
+    this.winnersService.deleteWinner(id).subscribe()
   }
 
   onStartCar(id: number, name: string): void {
